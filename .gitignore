@@ -12,3 +12,4 @@
 hs_err_pid*
 /StreamsLambdas/.nb-gradle/
 /StreamsLambdas/build/
+/GuiWithException/nbproject/private/

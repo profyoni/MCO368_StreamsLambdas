@@ -1,9 +1,13 @@
 package mco364;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,7 +43,40 @@ public class Main {
 
     }
 
-    public static void main(String[] args) {
-        groupBy();
+    public static void main(String[] args) throws FileNotFoundException {
+        // scan genesis and output letter and word histogram 
+        Scanner sc = new Scanner(new File("genesis.txt"));
+        StringBuilder sb = new StringBuilder();
+        String newLine = System.getProperty("line.separator");
+        while (sc.hasNextLine()) {
+            sb.append(sc.nextLine());
+            sb.append(newLine);
+        }
+        String text = sb.toString();
+
+        //System.out.println(text);
+        List<Character> cList = new ArrayList<Character>();
+        for (char c : text.toUpperCase().toCharArray()) {
+            cList.add(c);
+        }
+
+        Map<Character, Long> map = cList.stream()
+                .filter(Character::isAlphabetic)
+                .collect(Collectors.groupingBy(
+                        Function.identity(), Collectors.counting()
+                )
+                );
+        System.out.println();
+
+        String[] split = text.toUpperCase().split("[^a-zA-Z']+");
+
+        List<String> cList2 = Arrays.asList(split);
+
+        Map<String,Long> map2 = cList2.stream()
+                .collect( Collectors.groupingBy(
+                                Function.identity(), Collectors.counting()
+                        )
+                );
+        System.out.println(map2);
     }
 }
